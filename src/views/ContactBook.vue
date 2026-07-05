@@ -18,7 +18,7 @@
                 <button class="btn btn-sm btn-success" @click="goToAddContact">
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
-                <button class="btn btn-sm btn-danger" @click="removeAllContacts">
+                <button v-if="isAdmin" class="btn btn-sm btn-danger" @click="removeAllContacts">
                     <i class="fas fa-trash"></i> Xóa tất cả
                 </button>
             </div>
@@ -48,6 +48,8 @@ import ContactCard from "@/components/ContactCard.vue";
 import InputSearch from "@/components/InputSearch.vue";
 import ContactList from "@/components/ContactList.vue";
 import ContactService from "@/services/contact.service";
+import { authState } from "@/store/auth";
+
 export default {
     components: {
         ContactCard,
@@ -89,6 +91,9 @@ export default {
         },
         filteredContactsCount() {
             return this.filteredContacts.length;
+        },
+        isAdmin() {
+            return authState.user && authState.user.role === "admin";
         },
     },
     methods: {
